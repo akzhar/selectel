@@ -1,5 +1,4 @@
 .contacts
-  temp()
   display flex
   justify-content space-between
   align-items center
@@ -12,11 +11,22 @@
     display flex
 
     & a
-      temp()
       display flex
       align-items center
-      color color__grey
       text-decoration none
+      color color__grey
+
+      & svg
+        fill color__grey
+
+      &:hover
+        opacity 0.6
+
+      &:active
+        color color__darkgrey
+
+      &:active svg
+        fill color__darkgrey
 
     & span
       display none

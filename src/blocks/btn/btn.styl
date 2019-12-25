@@ -3,13 +3,32 @@
   padding 6px 9.4px
   font-size font__btn
   line-height 240%
-  background-color transparent
-  color color__blue
   text-decoration none
   border-radius 6px
-  border 1px solid color__blue
+  border 1px solid color__darkblue
+  color color__darkblue
+  background-color transparent
 
-  &--promo
-    color white
-    border-color color__blue
+  &:hover
+    background-color color__lightblue
+
+  &:active
     background-color color__blue
+
+  &:disabled
+    opacity 0.6
+
+  &--colored
+    color white
+    border-color color__darkblue
+    background-color color__darkblue
+
+    &:hover
+      background-color color__blue
+
+    &:active
+      background-color color__darkenblue
+
+    &:disabled
+      background-color color__lightgrey
+

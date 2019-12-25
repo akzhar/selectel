@@ -1,0 +1,150 @@
+thumb-color = white
+thumb-width = 12px
+thumb-height = 12px
+thumb-width--active = 15px
+thumb-height--active = 15px
+thumb-radius = 50%
+thumb-shadow-size = 1px
+thumb-shadow-blur = 1px
+thumb-shadow-color = #111
+thumb-border-width = 1px
+thumb-border-color = white
+
+track-color = color__lightengrey
+track-color--fill = color__darkblue
+track-width = 204px
+track-height = 2px
+track-radius = 0px
+
+shadow(shadow-size,shadow-blur,shadow-color)
+  box-shadow shadow-size shadow-size shadow-blur shadow-color, 0px 0px shadow-size lighten(shadow-color,5%)
+
+track()
+  width track-width
+  height track-height
+  cursor pointer
+
+thumb()
+  shadow(thumb-shadow-size,thumb-shadow-blur,thumb-shadow-color)
+  border thumb-border-width solid thumb-border-color
+  width thumb-width
+  height thumb-height
+  border-radius thumb-radius
+  background thumb-color
+  cursor ew-resize
+
+.range-control
+  display flex
+  flex-direction column
+  align-items flex-end
+
+  &__wrapper
+    position relative
+
+    &::before
+      position absolute
+      content "vCPU"
+      top 4px
+      right 100%
+      width 52px
+      height 12px
+
+    & output
+      position absolute
+      bottom 0
+      left 50%
+      transform translateX(-50%)
+      color color__darkgrey
+
+    & input[type=range]
+      position relative
+      -webkit-appearance: none
+      margin 6px 0 20px 0
+      width track-width
+      background-color transparent
+
+      &::before,
+      &::after
+        position absolute
+        top 4px
+        width 20px
+        height 12px
+        color color__lightgrey
+
+      &::before
+        left 0
+        content "2"
+        text-align left
+
+      &::after
+        right 0
+        content "12"
+        text-align right
+
+      &:focus
+        outline: none
+
+      &::-webkit-slider-runnable-track
+        track()
+        // background track-color--fill
+        background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
+        border-radius track-radius
+
+      &::-webkit-slider-thumb
+        thumb()
+        -webkit-appearance none
+        margin-top ((track-height / 2) - (thumb-height / 2))
+
+      &:active::-webkit-slider-thumb
+        width thumb-width--active
+        height thumb-height--active
+        margin-top ((track-height / 2) - (thumb-height--active / 2))
+
+      &:focus::-webkit-slider-runnable-track
+        // background-color track-color--fill
+        background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
+
+      &::-moz-range-track
+        track()
+        // background track-color--fill
+        background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
+        border-radius track-radius
+
+      &::-moz-range-thumb
+         thumb()
+
+      &:active::-moz-range-thumb
+        width thumb-width--active
+        height thumb-height--active
+
+      &::-ms-track
+        track()
+        background transparent
+        border-color transparent
+        border-width thumb-width 0
+        color transparent
+
+      &::-ms-fill-lower
+        background-color track-color--fill
+        // background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
+        border-radius track-radius*2
+
+      &::-ms-fill-upper
+        background track-color--fill
+        // background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
+        border-radius track-radius*2
+
+      &::-ms-thumb
+        thumb()
+
+      &:active::-ms-thumb
+        width thumb-width--active
+        height thumb-height--active
+
+      &:focus::-ms-fill-lower
+        background track-color--fill
+        // background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
+
+      &:focus::-ms-fill-upper
+        background-color track-color--fill
+        // background linear-gradient(to left ,track-color--fill 0%,track-color--fill 50%,track-color 50%, track-color 100%)
