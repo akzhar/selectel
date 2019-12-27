@@ -1,12 +1,24 @@
 .page
   font-family Gotham Pro, Arial, sans-serif
-  font-size font__small
+  font-size font
   font-height 120%
   margin 0
   // прилипающий подвал
   height 100%
 
+  @media(min-width: width__tablet)
+    font-size font--tablet
+
+  @media(min-width: width__desktop)
+    font-size font--desktop
+
   &__wrapper
     temp()
     width width__mobile
     margin 0 auto
+
+    @media(min-width: width__tablet)
+      width width__tablet
+
+    @media(min-width: width__desktop)
+      width width__desktop

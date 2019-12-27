@@ -7,24 +7,39 @@
     align-items flex-end
     padding 32px 20px 0 20px
 
+    @media(min-width: width__tablet)
+      flex-direction row
+      align-items flex-start
+      padding 32px padding__content--tablet 0 padding__content--tablet
+
+    @media(min-width: width__desktop)
+      padding 32px padding__content--desktop 0 padding__content--desktop
+
   &__card
     temp()
+    width 100%
 
   &__head
     margin 0 0 16px 0
     font-size font__head
+
+    @media(min-width: width__tablet)
+      font-size font__head--tablet
+
+    @media(min-width: width__desktop)
+      font-size font__head--desktop
 
   &__text
     margin 0 0 24px 0
     color color__grey
     font-weight normal
 
-  &__btn
-    margin 0 0 170px 0
-
   &__img
     display block
     margin -25px 0 0 0
+
+    @media(min-width: width__tablet)
+      margin 0
 
     & img
       temp()

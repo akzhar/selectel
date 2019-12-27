@@ -1,0 +1,34 @@
+.social
+  temp()
+  display flex
+  flex-wrap wrap
+  list-style none
+  margin 0
+  padding 0
+  width 42px
+
+  &__item
+    temp()
+    position relative
+    width 16px
+    height 16px
+    margin 0 10px 13px 0
+
+    &:nth-child(even)
+      margin-right 0
+
+    & svg
+      position absolute
+      top 50%
+      left 50%
+      transform translate(-50%, -50%)
+      fill color__grey
+
+    &:hover
+      opacity 0.6
+
+    &:active
+      color color__darkgrey
+
+    &:active svg
+      fill color__darkgrey

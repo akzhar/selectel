@@ -1,0 +1,33 @@
+.nav
+  temp()
+  display flex
+
+  &__wrapper
+    temp()
+    // display flex
+    // flex-direction column
+    margin 0 30px 0 0
+
+    &:last-child
+      margin 0
+
+  & a
+    display block
+    margin 0 0 10px 0
+    color color__grey
+    text-decoration none
+
+    @media(min-width: width__tablet)
+      font-size font
+
+    @media(min-width: width__desktop)
+      font-size font--desktop
+
+    &:hover
+      opacity 0.6
+
+    &:active
+      color color__darkgrey
+
+    &:active svg
+      fill color__darkgrey

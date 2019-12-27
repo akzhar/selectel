@@ -4,7 +4,19 @@
     temp()
     padding 32px 20px 0 20px
 
+    @media(min-width: width__tablet)
+      padding 32px padding__content--tablet 0 padding__content--tablet
+
+    @media(min-width: width__desktop)
+      padding 32px padding__content--desktop 0 padding__content--desktop
+
   &__head
     margin 0 0 32px 0
     font-size font__head
     text-align center
+
+    @media(min-width: width__tablet)
+      font-size font__head--tablet
+
+    @media(min-width: width__desktop)
+      font-size font__head--desktop

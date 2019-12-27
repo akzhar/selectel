@@ -40,6 +40,7 @@ const gulp = require('gulp'),
   readFile = require('utils-fs-read-file'),
   data = require('gulp-data'),
   htmlValidator = require('gulp-w3c-html-validator'),
+  babel = require('gulp-babel'),
   stylus = require('gulp-stylus');
 
 devip();
@@ -103,8 +104,14 @@ gulp.task('svgSprite', function () {
 });
 
 gulp.task('js', function () {
-  gulp.src(`${address.source.root}script.js`)
+  gulp.src(`${address.source.blocks}*.js`)
   .pipe(posthtml([include()])) // сборка из разных файлов
+  .pipe(babel({
+    plugins: [
+    "array-includes",
+    "@babel/plugin-transform-template-literals"
+    ]
+  }))
   .pipe(gulp.dest(`${address.build.js}`))
   .pipe(jsMin())
   .pipe(rename({suffix: '.min'}))

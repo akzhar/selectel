@@ -1,7 +1,9 @@
 <div class="range-control">
-  <!-- <label for="vCPU">vCPU</label> -->
+  <div class="range-control__label">vCPU</div>
   <div class="range-control__wrapper">
-    <input type="range" name="vCPU" value="7" min="2" max="12" step="1">
-    <output>7 ядер</output>
+    <div class="range-control__bar" id="bar">
+      <div class="range-control__toggle" id="toggle"></div>
+    </div>
+    <output class="range-control__output" id="output">6 ядер</output>
   </div>
 </div>
