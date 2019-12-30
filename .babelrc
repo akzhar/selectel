@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "babel-plugin-array-includes",
+    "@babel/plugin-transform-template-literals"
+  ]
+}

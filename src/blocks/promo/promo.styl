@@ -1,0 +1,60 @@
+.promo
+
+  &__content
+    temp()
+    display flex
+    flex-direction column
+    align-items flex-end
+    padding 32px 20px 0 20px
+
+    @media(min-width: width__tablet)
+      flex-direction row
+      align-items flex-start
+      padding 32px padding__content--tablet 0 padding__content--tablet
+
+    @media(min-width: width__desktop)
+      padding 32px padding__content--desktop 0 padding__content--desktop
+
+  &__card
+    temp()
+    width 100%
+
+    @media(min-width: width__desktop)
+      width 528px
+
+  &__head
+    margin 0 0 16px 0
+    font-size font__head
+
+    @media(min-width: width__tablet)
+      font-size font__head--tablet
+
+    @media(min-width: width__desktop)
+      font-size font__head--desktop
+
+  &__text
+    margin 0 0 24px 0
+    color color__grey
+    font-weight normal
+
+    @media(min-width: width__tablet)
+      font-size font__head
+
+  &__picture
+      z-index -1
+
+      @media(min-width: width__tablet)
+        z-index auto
+
+    & img
+      temp()
+      display block
+      transform scale(-1, 1)
+      margin -25px 0 0 0
+      width 210px
+
+      @media(min-width: width__tablet)
+        width 294px
+
+      @media(min-width: width__desktop)
+        width 380px

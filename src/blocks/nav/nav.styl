@@ -1,0 +1,49 @@
+.nav
+  temp()
+  display flex
+  flex-wrap wrap
+  width 100%
+
+  &__link
+    display block
+    width 50%
+    margin 0 0 10px 0
+    color color__grey
+    text-decoration none
+
+    @media(min-width: width__tablet)
+      width 25%
+      font-size font
+
+    @media(min-width: width__desktop)
+      font-size font--desktop
+
+    &--equipment
+      order 2
+
+    &--datacenters
+      order 3
+
+    &--blog
+      order 4
+
+    &--cloud
+      order 5
+
+    &--solutions
+      order 6
+
+    &--about
+      order 7
+
+    &--offices
+      order 8
+
+    &:hover
+      opacity opactiy
+
+    &:active
+      color color__darkgrey
+
+    &:active svg
+      fill color__darkgrey

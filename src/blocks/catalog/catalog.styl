@@ -1,0 +1,27 @@
+.catalog
+
+  &__content
+    temp()
+    padding 32px 20px
+
+    @media(min-width: width__tablet)
+      padding 32px padding__content--tablet 60px padding__content--tablet
+
+    @media(min-width: width__desktop)
+      padding 32px padding__content--desktop 80px padding__content--desktop
+
+  &__head
+    margin 0 0 16px 0
+    font-size font__subhead
+    font-weight normal
+
+    @media(min-width: width__tablet)
+      font-size font__subhead--tablet
+
+  &__message
+    display none
+    font-weight bold
+    color color__brand
+
+    &--show
+      display block

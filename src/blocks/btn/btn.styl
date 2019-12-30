@@ -1,0 +1,46 @@
+.btn
+  display block
+  width 102px
+  padding 0
+  margin 0
+  box-sizing border-box
+  font-size font__btn
+  line-height 240%
+  text-decoration none
+  border-radius 6px
+  border 1px solid color__darkblue
+  color color__darkblue
+  text-align center
+  background-color transparent
+
+  &:hover
+    background-color color__lightblue
+    cursor pointer
+
+  &:active
+    background-color color__blue
+
+  &:disabled
+    opacity 0.6
+
+  &--colored
+    width 111px
+    color white
+    border-color color__darkblue
+    background-color color__darkblue
+
+    @media(min-width: width__tablet)
+      width 160px
+      font-size font--desktop
+
+    &:hover
+      background-color color__blue
+      border-color color__blue
+
+    &:active
+      background-color color__darkenblue
+      border-color color__darkenblue
+
+    &:disabled
+      background-color color__lightgrey
+      border-color color__lightgrey

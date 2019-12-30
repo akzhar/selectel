@@ -1,0 +1,116 @@
+.product
+  border 1px solid color__grey
+  border-radius 7px
+  padding 16px
+  margin 0 0 16px 0
+
+  &:last-child
+    margin 0
+
+  &__head
+    temp()
+    font-size font
+    color color__darkgrey
+    margin 0 0 16px 0
+
+    @media(min-width: width__tablet)
+      font-size font--tablet
+
+    @media(min-width: width__desktop)
+      font-size font--desktop
+
+  &__attributes
+
+    @media(min-width: width__tablet)
+      display flex
+
+  &__attr
+    temp()
+    color color__darkgrey
+    margin 0 0 20px 0
+
+    & br
+      display none
+
+      @media(min-width: width__tablet)
+        display inline
+
+    @media(min-width: width__tablet)
+      margin 0
+
+    &:last-of-type
+      margin 0 0 30px 0
+
+      @media(min-width: width__tablet)
+        margin 0 auto 0 0
+
+    &--cpu
+
+      @media(min-width: width__tablet)
+        width 130px
+        margin 0 15px 0 0
+
+      @media(min-width: width__desktop)
+        margin 0 58px 0 0
+
+    &--ram
+
+      @media(min-width: width__tablet)
+        width 100px
+        margin 0 40px 0 0
+
+      @media(min-width: width__desktop)
+        margin 0 58px 0 0
+
+    &--memory
+
+      @media(min-width: width__tablet)
+        width 113px
+
+  &__wrapper
+    temp()
+
+    @media(min-width: width__tablet)
+      display flex
+      flex-direction column
+      align-items center
+      width 120px
+      margin 0 0 0 auto;
+
+  &__price
+    temp()
+    display flex
+    margin 0 0 5px 0
+
+    @media(min-width: width__tablet)
+      flex-direction column
+
+    @media(min-width: width__desktop)
+      flex-direction row
+
+  &__price-value
+    temp()
+    color color__darkgrey
+    margin 0 8px 0 0
+
+    @media(min-width: width__tablet)
+      text-align center
+      margin 0
+
+    @media(min-width: width__desktop)
+      margin 0 8px 0 0
+
+  &__price-unit
+    color color__darkgrey
+    temp()
+
+    @media(min-width: width__tablet)
+      text-align center
+
+  &__orderbtn
+
+    @media(min-width: width__tablet)
+      width 68px
+
+    @media(min-width: width__desktop)
+      width 76px

@@ -1,0 +1,56 @@
+.options
+  margin 0
+  padding 0
+  list-style none
+
+  @media(min-width: width__tablet)
+    display flex
+
+  &__option
+    padding 16px 0
+
+    @media(min-width: width__tablet)
+      padding 0
+      margin 0 50px 0 0
+
+      &:last-child
+        margin 0 20px 0 0
+
+    @media(min-width: width__desktop)
+      margin 0 130px 0 0
+
+      &:last-child
+        margin 0 50px 0 0
+
+    & input[type="checkbox"]
+      hide()
+
+      &:checked + label::before
+        border-color color__darkenblue
+        background url("../img/tick.svg") no-repeat center
+        background-size 80%
+
+      &:disabled + label::before
+        border-color color__lightgrey
+
+    & label
+      position relative
+      padding 0 0 0 28px
+      color color__darkgrey
+
+      @media(min-width: width__tablet)
+        font-size font--tablet
+
+      &:hover
+        cursor pointer
+
+      &::before
+        position absolute
+        top 50%
+        left 0
+        content ""
+        transform translateY(-50%)
+        width 18px
+        height 18px
+        border 2px solid color__darkgrey
+        border-radius 50%

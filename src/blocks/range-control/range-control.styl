@@ -1,0 +1,101 @@
+thumb-color = white
+thumb-width = 12px
+thumb-height = 12px
+thumb-width--hover = 15px
+thumb-height--hover = 15px
+thumb-radius = 50%
+thumb-shadow-size = 1px
+thumb-shadow-blur = 1px
+thumb-shadow-color = #111
+thumb-border-width = 1px
+thumb-border-color = white
+
+scale-color = color__lightengrey
+scale-color--fill = color__darkblue
+bar-height = 2px
+bar-radius = 3px
+
+shadow(shadow-size,shadow-blur,shadow-color)
+  box-shadow shadow-size shadow-size shadow-blur shadow-color, 0px 0px shadow-size lighten(shadow-color, 5%)
+
+toggle()
+  shadow(thumb-shadow-size,thumb-shadow-blur,thumb-shadow-color)
+  border thumb-border-width solid thumb-border-color
+  width thumb-width
+  height thumb-height
+  border-radius thumb-radius
+  background thumb-color
+  cursor ew-resize
+
+.range-control
+  temp()
+  display flex
+  justify-content space-between
+  padding 6px 0 24px 0
+
+  @media(min-width: width__tablet)
+    width 310px
+
+  &__label
+
+    @media(min-width: width__tablet)
+      font-size font__head
+
+  &__wrapper
+    position relative
+    padding 5px 0
+
+  &__bar
+    position relative
+    width 204px
+    height bar-height
+    border-radius bar-radius
+    background linear-gradient(to right ,scale-color--fill 0%, scale-color--fill 50%, scale-color 50%, scale-color 100%)
+
+    @media(min-width: width__tablet)
+      width 246px
+
+    &:hover
+      cursor pointer
+
+    &::before,
+    &::after
+      position absolute
+      top 8px
+      width 20px
+      height 12px
+      color color__lightgrey
+
+    &::before
+      left 0
+      content "2"
+      text-align left
+
+    &::after
+      right 0
+      content "12"
+      text-align right
+
+  &__toggle
+    toggle()
+    position absolute
+    top 50%
+    left 0
+    transform translate(0, -50%)
+
+    &:hover
+      width thumb-width--hover
+      height thumb-height--hover
+
+    &:active
+      cursor pointer
+
+  &__output
+    background none
+    border none
+    position absolute
+    bottom -24px
+    left 50%
+    transform translateX(-50%)
+    color color__darkgrey
+    text-align center

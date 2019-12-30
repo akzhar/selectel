@@ -1,0 +1,27 @@
+.footer
+  temp()
+  box-shadow: 0 -3px 3px -3px rgba(0, 0, 0, 0.3);
+
+  &__content
+    display flex
+    padding 32px 20px 24px 20px
+
+    @media(min-width: width__tablet)
+      padding 32px padding__content--tablet 72px padding__content--tablet
+
+    @media(min-width: width__desktop)
+      padding 32px padding__content--desktop 62px padding__content--desktop
+
+  &__wrapper
+    temp()
+    display flex
+    flex-direction column
+    align-items center
+    margin 0 28px 0 0
+
+    @media(min-width: width__tablet)
+      align-items flex-start
+
+    & .logo
+      temp()
+      margin 0 0 20px 0
