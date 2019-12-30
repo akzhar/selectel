@@ -4,7 +4,6 @@
 
   const MAX_RESPONSE_TIME = 5000;
   const MS_PER_SECOND = 1000;
-  const JSON_TYPE = 'json';
   const TIME_UNIT = 'cек';
   const OK_STATUS = 200;
   const Url = {
@@ -30,7 +29,6 @@
     });
     xhr.open(method, Url[method], true);
     xhr.setRequestHeader('secret-key', '$2b$10$PJB9U7iJ7ytHYcfpTTNvJ./lH8zQor1GKkTgNRwy51cTnZi8lBZVS');
-    xhr.responseType = JSON_TYPE;
     xhr.timeout = MAX_RESPONSE_TIME;
     xhr.send(data);
   }

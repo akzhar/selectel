@@ -37,9 +37,7 @@ const gulp = require('gulp'),
   server = require('browser-sync').create(),
   devip = require('dev-ip'),
   posthtml = require('gulp-posthtml'),
-  include = require('posthtml-include'),
   readFile = require('utils-fs-read-file'),
-  data = require('gulp-data'),
   htmlValidator = require('gulp-w3c-html-validator'),
   babel = require('gulp-babel'),
   stylus = require('gulp-stylus'),
@@ -49,7 +47,6 @@ devip();
 
 gulp.task('style', function () {
   return gulp.src(`${ADDRESS.source.root}style.styl`)
-    .pipe(posthtml([include()])) // сборка из разных файлов
     .pipe(stylus())
     .pipe(autoprefixer())
     .pipe(gulp.dest(ADDRESS.build.css))
@@ -152,31 +149,18 @@ gulp.task('cwebp', function () {
 });
 
 gulp.task('html', function () {
-  gulp.src(`${ADDRESS.source.root}*.html`)
-  .pipe(posthtml([include()])) // сборка из разных файлов
-  .pipe(htmlMin({ collapseWhitespace: true }))
+  const DATA_PATH = 'src/js/data.json';
+  gulp.src(`${ADDRESS.source.root}index.pug`)
+  .pipe(pug())
   .pipe(gulp.dest(`${ADDRESS.build.root}`));
 });
 
-gulp.task('pug', function (){
-  const DATA_PATH = 'src/js/data.json';
-  return gulp.src(`${ADDRESS.source.blocks}**/*.pug`)
-    .pipe(data(function () {
-      return JSON.parse(readFile.sync(DATA_PATH));
-    }))
-    .pipe(pug({pretty: true})) // не минифицировать HTML
-    .pipe(gulp.dest(function (file) {
-      return file.base;
-    }));
-});
-
 gulp.task('watch', function() {
-  gulp.watch(`${ADDRESS.source.blocks}**/*.html`, ['html', 'reload']);
-  gulp.watch(`${ADDRESS.source.blocks}**/*.styl`, ['style', 'reload']);
+    gulp.watch(`${ADDRESS.source.root}**/*.pug`, ['html', 'reload']);
+  gulp.watch(`${ADDRESS.source.root}**/*.styl`, ['style', 'reload']);
   gulp.watch(`${ADDRESS.source.root}**/*.js`, ['js' , 'reload']);
   gulp.watch(`${ADDRESS.source.img}**/*.{png,jpg,jpeg,svg}`, ['image', 'cwebp', 'reload']);
   gulp.watch(`${ADDRESS.source.sprite}*.svg`, ['svgSprite', 'html', 'reload']);
-  gulp.watch(`${ADDRESS.source.blocks}**/*.pug`, ['pug', 'html', 'reload']);
 });
 
 gulp.task('reload', function() {
@@ -207,7 +191,6 @@ gulp.task ('build', function(done) {
     'cwebp',
     'style',
     'js',
-    'pug',
     'html',
     'validateHtml',
     done

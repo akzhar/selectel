@@ -18,7 +18,7 @@
 
   function onLoad(response) {
     CATALOG.removeChild(LOADER);
-    dependencies.data.SERVER_DATA = response;
+    dependencies.data.SERVER_DATA = JSON.parse(response);
     dependencies.filters.filterByDefault();
   }
 

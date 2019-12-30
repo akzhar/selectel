@@ -95,10 +95,10 @@
     EXCEPTIONS.forEach(function(x) {
       if (result + STEP > x) result += STEP;
     });
-    result = availableValues.find(function(x) {
-      if ((x - result >= 0) && (x - result <= STEP / 2)) return x;
-      if ((result - x >= 0) && (result - x <= STEP / 2)) return x;
-    });
+    for(let i = 0; i < availableValues.length; i++) {
+      if ((availableValues[i] - result >= 0) && (availableValues[i] - result <= STEP / 2)) result = availableValues[i];
+      if ((result - availableValues[i] >= 0) && (result - availableValues[i] <= STEP / 2)) result = availableValues[i];
+    }
     newTogglePositionOnBar = (result - MIN) * stepWidth;
     newTogglePositionOnBar = checkBarLimits(newTogglePositionOnBar);
     let persents = Math.round(newTogglePositionOnBar / barWidth * 100);

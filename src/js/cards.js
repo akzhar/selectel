@@ -87,7 +87,9 @@
 
   function removeAll() {
     let cards = CATALOG.querySelectorAll('.product');
-    cards.forEach(card => CATALOG.removeChild(card));
+    Array.prototype.forEach.call(cards, function(card) {
+      CATALOG.removeChild(card)
+    });
   }
 
   window.cards = {
