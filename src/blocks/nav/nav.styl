@@ -1,30 +1,46 @@
 .nav
   temp()
   display flex
+  flex-wrap wrap
+  width 100%
 
-  &__wrapper
-    temp()
-    // display flex
-    // flex-direction column
-    margin 0 30px 0 0
-
-    &:last-child
-      margin 0
-
-  & a
+  &__link
     display block
+    width 50%
     margin 0 0 10px 0
     color color__grey
     text-decoration none
 
     @media(min-width: width__tablet)
+      width 25%
       font-size font
 
     @media(min-width: width__desktop)
       font-size font--desktop
 
+    &--equipment
+      order 2
+
+    &--datacenters
+      order 3
+
+    &--blog
+      order 4
+
+    &--cloud
+      order 5
+
+    &--solutions
+      order 6
+
+    &--about
+      order 7
+
+    &--offices
+      order 8
+
     &:hover
-      opacity 0.6
+      opacity opactiy
 
     &:active
       color color__darkgrey

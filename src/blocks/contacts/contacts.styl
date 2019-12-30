@@ -8,31 +8,44 @@
   margin 0
   padding 0
 
+  @media(min-width: width__desktop)
+    width auto
+
   &__item
     display flex
 
-    & a
+    @media(min-width: width__desktop)
+      margin 0 35px 0 0
+
+  &__link
+    temp()
+    display flex
+    align-items center
+    text-decoration none
+    color color__grey
+
+    & svg
       temp()
-      display flex
-      align-items center
-      text-decoration none
-      color color__grey
+      fill color__grey
 
-      & svg
-        fill color__grey
+      @media(min-width: width__tablet)
+        width 16px
+        height 16px
 
-        @media(min-width: width__tablet)
-          width 16px
-          height 16px
+      @media(min-width: width__tablet)
+        margin 0 10px 0 0
 
-      &:hover
-        opacity 0.6
+    &:hover
+      opacity opactiy
 
-      &:active
-        color color__darkgrey
+    &:active
+      color color__darkgrey
 
-      &:active svg
-        fill color__darkgrey
+    &:active svg
+      fill color__darkgrey
 
-    & span
-      display none
+  & span
+    display none
+
+    @media(min-width: width__desktop)
+      display block

@@ -55,6 +55,9 @@ toggle()
     @media(min-width: width__tablet)
       width 246px
 
+    &:hover
+      cursor pointer
+
     &::before,
     &::after
       position absolute
@@ -77,16 +80,22 @@ toggle()
     toggle()
     position absolute
     top 50%
-    left 50%
-    transform translate(-50%, -50%)
+    left 0
+    transform translate(0, -50%)
 
     &:hover
       width thumb-width--hover
       height thumb-height--hover
 
+    &:active
+      cursor pointer
+
   &__output
+    background none
+    border none
     position absolute
     bottom -24px
     left 50%
     transform translateX(-50%)
     color color__darkgrey
+    text-align center

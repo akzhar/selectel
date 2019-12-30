@@ -19,6 +19,9 @@
     temp()
     width 100%
 
+    @media(min-width: width__desktop)
+      width 528px
+
   &__head
     margin 0 0 16px 0
     font-size font__head
@@ -34,16 +37,24 @@
     color color__grey
     font-weight normal
 
-  &__img
-    display block
-    margin -25px 0 0 0
-
     @media(min-width: width__tablet)
-      margin 0
+      font-size font__head
+
+  &__picture
+      z-index -1
+
+      @media(min-width: width__tablet)
+        z-index auto
 
     & img
       temp()
       display block
-      width 210px
-      height 175px
       transform scale(-1, 1)
+      margin -25px 0 0 0
+      width 210px
+
+      @media(min-width: width__tablet)
+        width 294px
+
+      @media(min-width: width__desktop)
+        width 380px

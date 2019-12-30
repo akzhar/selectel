@@ -1,6 +1,6 @@
 'use strict';
 
-const address = {
+const ADDRESS = {
   build: {
     root: 'docs/',
     css: 'docs/css/',
@@ -12,6 +12,7 @@ const address = {
     blocks: 'src/blocks/',
     fonts: 'src/fonts/',
     img: 'src/img/',
+    js: 'src/js/',
     sprite: 'src/img/sprite/'
   }
 };
@@ -41,36 +42,40 @@ const gulp = require('gulp'),
   data = require('gulp-data'),
   htmlValidator = require('gulp-w3c-html-validator'),
   babel = require('gulp-babel'),
-  stylus = require('gulp-stylus');
+  stylus = require('gulp-stylus'),
+  concat = require('gulp-concat');
 
 devip();
 
 gulp.task('style', function () {
-  return gulp.src(`${address.source.blocks}style.styl`)
+  return gulp.src(`${ADDRESS.source.root}style.styl`)
     .pipe(posthtml([include()])) // сборка из разных файлов
     .pipe(stylus())
     .pipe(autoprefixer())
-    .pipe(gulp.dest(address.build.css))
+    .pipe(gulp.dest(ADDRESS.build.css))
     .pipe(cssMin())
     .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest(address.build.css));
+    .pipe(gulp.dest(ADDRESS.build.css));
 });
 
 gulp.task('validateHtml', function () {
   return gulp
-  .src(`${address.build.root}*.html`)
+  .src(`${ADDRESS.build.root}*.html`)
   .pipe(htmlValidator())
   .pipe(htmlValidator.reporter());
 });
 
 gulp.task('stylLint', function () {
-  return gulp.src(`${address.source.blocks}**/*.styl`)
-    .pipe(stylint())
-    .pipe(stylint.reporter());
+  return gulp.src(`${ADDRESS.source.blocks}**/*.styl`)
+    .pipe(stylint({
+      fix: true
+    }));
 });
 
 gulp.task('esLint', function () {
-  gulp.src([`${address.source.blocks}**/*.js`])
+  // не все js файлы в блоках
+  // временно отключено (https://www.bountysource.com/issues/84540079-typeerror-cliengine-is-not-a-constructor)
+  gulp.src([`${ADDRESS.source.blocks}**/*.js`])
   .pipe(esLint())
   .pipe(esLint.format())
   .pipe(esLint.failAfterError());
@@ -81,12 +86,12 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('copy', function () {
-  gulp.src([`${address.source.fonts}**/*.{woff,woff2}`], {base: `${address.source.root}`})
+  gulp.src([`${ADDRESS.source.fonts}*.{woff,woff2}`], {base: `${ADDRESS.source.root}`})
   .pipe(gulp.dest('docs/'));
 });
 
 gulp.task('svgSprite', function () {
-  gulp.src(`${address.source.sprite}*.svg`)
+  gulp.src(`${ADDRESS.source.sprite}*.svg`)
   .pipe(imageMin([
     svgMin({
       plugins: [
@@ -100,26 +105,30 @@ gulp.task('svgSprite', function () {
     ]))
   .pipe(svgstore({inlineSvg: true}))
   .pipe(rename({basename: 'sprite', suffix: '.min'}))
-  .pipe(gulp.dest(`${address.build.img}`));
+  .pipe(gulp.dest(`${ADDRESS.build.img}`));
 });
 
-gulp.task('js', function () {
-  gulp.src(`${address.source.blocks}*.js`)
-  .pipe(posthtml([include()])) // сборка из разных файлов
-  .pipe(babel({
-    plugins: [
-    "array-includes",
-    "@babel/plugin-transform-template-literals"
-    ]
-  }))
-  .pipe(gulp.dest(`${address.build.js}`))
+gulp.task('js', function() {
+  return gulp.src([
+    'src/js/utils.js',
+    'src/js/data.js',
+    'src/blocks/range-control/range-control.js',
+    'src/js/backend.js',
+    'src/js/message.js',
+    'src/js/cards.js',
+    'src/blocks/filters/filters.js',
+    'src/js/main.js'
+  ])
+  .pipe(babel())
+  .pipe(concat('script.js'))
+  .pipe(gulp.dest(`${ADDRESS.build.js}`))
   .pipe(jsMin())
   .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest(`${address.build.js}`));
+  .pipe(gulp.dest(`${ADDRESS.build.js}`))
 });
 
 gulp.task('image', function () {
-  gulp.src(`${address.source.img}**/*.{png,jpg,jpeg,svg}`)
+  gulp.src(`${ADDRESS.source.img}**/*.{png,jpg,jpeg,svg}`)
   .pipe(imageMin([
     pngMin({quality: '80'}),
     jpegMin({progressive: true, method: 'ms-ssim'}),
@@ -133,25 +142,25 @@ gulp.task('image', function () {
       ]
     }),
     ]))
-  .pipe(gulp.dest(`${address.build.img}`));
+  .pipe(gulp.dest(`${ADDRESS.build.img}`));
 });
 
 gulp.task('cwebp', function () {
-  gulp.src(`${address.source.img}**/*.{png,jpg,jpeg}`)
+  gulp.src(`${ADDRESS.source.img}**/*.{png,jpg,jpeg}`)
   .pipe(cwebp())
-  .pipe(gulp.dest(`${address.build.img}`));
+  .pipe(gulp.dest(`${ADDRESS.build.img}`));
 });
 
 gulp.task('html', function () {
-  gulp.src(`${address.source.blocks}*.html`)
+  gulp.src(`${ADDRESS.source.root}*.html`)
   .pipe(posthtml([include()])) // сборка из разных файлов
   .pipe(htmlMin({ collapseWhitespace: true }))
-  .pipe(gulp.dest(`${address.build.root}`));
+  .pipe(gulp.dest(`${ADDRESS.build.root}`));
 });
 
 gulp.task('pug', function (){
   const DATA_PATH = 'src/js/data.json';
-  return gulp.src(`${address.source.blocks}**/*.pug`)
+  return gulp.src(`${ADDRESS.source.blocks}**/*.pug`)
     .pipe(data(function () {
       return JSON.parse(readFile.sync(DATA_PATH));
     }))
@@ -162,12 +171,12 @@ gulp.task('pug', function (){
 });
 
 gulp.task('watch', function() {
-  gulp.watch(`${address.source.blocks}**/*.html`, ['html', 'reload']);
-  gulp.watch(`${address.source.blocks}**/*.styl`, ['style', 'reload']);
-  gulp.watch(`${address.source.blocks}**/*.js`, ['js' , 'reload']);
-  gulp.watch(`${address.source.img}*.{png,jpg,jpeg,svg}`, ['image', 'cwebp', 'reload']);
-  gulp.watch(`${address.source.sprite}*.svg`, ['svgSprite', 'html', 'reload']);
-  gulp.watch(`${address.source.blocks}**/*.pug`, ['pug', 'html', 'reload']);
+  gulp.watch(`${ADDRESS.source.blocks}**/*.html`, ['html', 'reload']);
+  gulp.watch(`${ADDRESS.source.blocks}**/*.styl`, ['style', 'reload']);
+  gulp.watch(`${ADDRESS.source.root}**/*.js`, ['js' , 'reload']);
+  gulp.watch(`${ADDRESS.source.img}**/*.{png,jpg,jpeg,svg}`, ['image', 'cwebp', 'reload']);
+  gulp.watch(`${ADDRESS.source.sprite}*.svg`, ['svgSprite', 'html', 'reload']);
+  gulp.watch(`${ADDRESS.source.blocks}**/*.pug`, ['pug', 'html', 'reload']);
 });
 
 gulp.task('reload', function() {
@@ -177,7 +186,7 @@ gulp.task('reload', function() {
 
 gulp.task ('server', function(done) {
   server.init({
-    server: `${address.build.root}`,
+    server: `${ADDRESS.build.root}`,
     notify: false,
     open: true,
     cors: true,
@@ -192,7 +201,7 @@ gulp.task ('build', function(done) {
     'clean',
     'svgSprite',
     'stylLint',
-    //'esLint', https://www.bountysource.com/issues/84540079-typeerror-cliengine-is-not-a-constructor
+    //'esLint',
     'copy',
     'image',
     'cwebp',

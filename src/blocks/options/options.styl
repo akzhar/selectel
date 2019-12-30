@@ -7,13 +7,20 @@
     display flex
 
   &__option
-    padding 7px 0
+    padding 16px 0
 
     @media(min-width: width__tablet)
-      margin 0 86px 0 0
+      padding 0
+      margin 0 50px 0 0
 
       &:last-child
-        margin 0
+        margin 0 20px 0 0
+
+    @media(min-width: width__desktop)
+      margin 0 130px 0 0
+
+      &:last-child
+        margin 0 50px 0 0
 
     & input[type="checkbox"]
       hide()
