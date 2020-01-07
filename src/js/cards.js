@@ -57,7 +57,7 @@
     let cpuName = cardData.cpu.name;
     let lastSpacePos = cpuName.lastIndexOf(' ');
     let temp = cpuName.split('');
-    temp.splice(lastSpacePos, 1, '<br>');
+    temp.splice(lastSpacePos, 1, '<br> ');
     cpuName = temp.join('');
     let cores = cardData.cpu.cores * cardData.cpu.count;
     attrCpu.innerHTML = `${count}${cpuName}, ${cores} ядер`;

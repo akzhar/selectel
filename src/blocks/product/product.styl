@@ -1,7 +1,7 @@
 .product
   border 1px solid color__grey
   border-radius 7px
-  padding 18px 16px 15px 16px
+  padding 18px 16px 13px 16px
   margin 0 0 16px 0
 
   &:last-child
@@ -9,17 +9,17 @@
 
   @media(min-width: width__tablet)
     padding 28px 28px 28px 10px
-    margin 0 0 14px 0
+    margin 0 0 15px 0
 
   @media(min-width: width__desktop)
-    padding 26px 16px 24px 16px
-    margin 0 0 10px 0
+    padding 26px 16px 20px 16px
+    margin 0 0 12px 0
 
   &__head
     temp()
     font-size font
     color color__darkgrey
-    margin 0 0 16px 0
+    margin 0 0 14px 0
 
     @media(min-width: width__tablet)
       font-size font--tablet
@@ -36,7 +36,7 @@
   &__attr
     temp()
     color color__darkgrey
-    margin 0 0 24px 0
+    margin 0 0 23px 0
 
     @media(min-width: width__tablet)
       margin 0
@@ -57,7 +57,7 @@
 
       @media(min-width: width__tablet)
         width 130px
-        margin 0 22px 0 0
+        margin 0 26px 0 0
 
       @media(min-width: width__desktop)
         margin 0 80px 0 0
@@ -93,16 +93,16 @@
   &__price
     temp()
     display flex
-    margin 0 0 18px 0
+    margin 0 0 16px 0
 
     @media(min-width: width__tablet)
       flex-direction column
       font-size font--desktop
-      margin 0 0 4px 0
+      margin -10px 0 4px 0
 
     @media(min-width: width__desktop)
       flex-direction row
-      margin 0 0 14px 0
+      margin 0 0 12px 0
 
   &__price-value
     temp()
@@ -124,7 +124,6 @@
       text-align center
 
   &__orderbtn
-    line-height 22px
 
     @media(min-width: width__tablet)
       width 68px
