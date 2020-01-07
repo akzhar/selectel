@@ -302,7 +302,7 @@
     var cpuName = cardData.cpu.name;
     var lastSpacePos = cpuName.lastIndexOf(' ');
     var temp = cpuName.split('');
-    temp.splice(lastSpacePos, 1, '<br>');
+    temp.splice(lastSpacePos, 1, '<br> ');
     cpuName = temp.join('');
     var cores = cardData.cpu.cores * cardData.cpu.count;
     attrCpu.innerHTML = "".concat(count).concat(cpuName, ", ").concat(cores, " \u044F\u0434\u0435\u0440");

@@ -4,6 +4,12 @@
   flex-wrap wrap
   width 100%
 
+  @media(min-width: width__tablet)
+    margin -6px 0 0 0
+
+  @media(min-width: width__desktop)
+    margin 0
+
   &__link
     display block
     width 50%
@@ -43,6 +49,7 @@
 
     @media(min-width: width__tablet)
       width 25%
+      margin 0 0 15px 0
       font-size font
 
       &--equipment
