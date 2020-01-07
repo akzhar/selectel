@@ -8,8 +8,7 @@
     "build": "gulp build",
     "start": "gulp start"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/plugin-transform-template-literals": "^7.7.4",

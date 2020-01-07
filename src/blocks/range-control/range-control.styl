@@ -30,20 +30,24 @@ toggle()
 .range-control
   temp()
   display flex
-  justify-content space-between
   padding 6px 0 24px 0
 
   @media(min-width: width__tablet)
+    justify-content space-between
     width 310px
 
   &__label
+    margin 0 32px 0 0
 
     @media(min-width: width__tablet)
       font-size font__head
 
   &__wrapper
     position relative
-    padding 5px 0
+    padding 6px 0 5px 0
+
+    @media(min-width: width__tablet)
+      padding 9px 0 5px 0
 
   &__bar
     position relative
@@ -61,7 +65,7 @@ toggle()
     &::before,
     &::after
       position absolute
-      top 8px
+      top 3px
       width 20px
       height 12px
       color color__lightgrey
@@ -80,8 +84,8 @@ toggle()
     toggle()
     position absolute
     top 50%
-    left 0
-    transform translate(0, -50%)
+    left 50%
+    transform translate(-50%, -50%)
 
     &:hover
       width thumb-width--hover
@@ -94,7 +98,7 @@ toggle()
     background none
     border none
     position absolute
-    bottom -24px
+    bottom -20px
     left 50%
     transform translateX(-50%)
     color color__darkgrey

@@ -4,9 +4,12 @@
   justify-content space-between
   align-items center
   list-style none
-  width: 115px
+  width: 56px
   margin 0
   padding 0
+
+  @media(min-width: width__tablet)
+    width: 115px
 
   @media(min-width: width__desktop)
     width auto
@@ -14,8 +17,21 @@
   &__item
     display flex
 
+    &:hover
+      opacity opactiy
+
+    &:active .contacts__link
+      color color__darkgrey
+
+    &:active svg
+      fill color__darkgrey
+
     @media(min-width: width__desktop)
-      margin 0 35px 0 0
+      margin 0 44px 0 0
+      font-size 12px
+
+    &:last-child
+      margin 0
 
   &__link
     temp()
@@ -24,25 +40,36 @@
     text-decoration none
     color color__grey
 
-    & svg
-      temp()
-      fill color__grey
+  &__icon
+    temp()
+    fill color__grey
+
+    @media(min-width: width__desktop)
+      margin 0 16px 0 0
+
+    &--tl
+      width 8px
+      height 9px
+
+      @media(min-width: width__tablet)
+        width 12px
+        height 13px
+
+    &--mail
+      width 9px
+      height 7px
 
       @media(min-width: width__tablet)
         width 16px
-        height 16px
+        height 12px
+
+    &--tg
+      width 8px
+      height 8px
 
       @media(min-width: width__tablet)
-        margin 0 10px 0 0
-
-    &:hover
-      opacity opactiy
-
-    &:active
-      color color__darkgrey
-
-    &:active svg
-      fill color__darkgrey
+        width 12px
+        height 12px
 
   & span
     display none

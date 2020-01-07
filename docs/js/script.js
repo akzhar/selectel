@@ -27,7 +27,7 @@
 (function () {
   window.data = {
     SERVER_DATA: [],
-    START_VCPU_COUNT: 6,
+    DEFAULT_FILTER_VCPU_COUNT: 6,
     FILTER_ANY_VALUE: 'any',
     CATALOG_CLASS: 'catalog__content',
     FILTERS_CLASS: 'filters',
@@ -66,28 +66,19 @@
   defineAvailableValues();
   updateVariables();
   RANGE_TOGGLE.addEventListener('mousedown', onToggleMouseDown);
-  RANGE_BAR.addEventListener('click', onBarClick);
+  RANGE_BAR.addEventListener('click', onRangeBarClick);
   window.addEventListener('resize', onWindowResize);
-  forceMoveToggleToValue(dependencies.data.START_VCPU_COUNT);
+  forceMoveToggleToValue(dependencies.data.DEFAULT_FILTER_VCPU_COUNT);
 
   function defineAvailableValues() {
-    var varCount = Math.ceil((MAX - MIN) / STEP + EXCEPTIONS.length);
-
-    for (var i = 1; i <= varCount; i++) {
-      var val = i * STEP;
-
-      if (val < MIN) {
-        varCount++;
-        continue;
-      }
-
+    for (var val = MIN; val <= MAX; val += STEP) {
       if (!(EXCEPTIONS.indexOf(val) !== -1)) availableValues.push(val);
     }
   }
 
   function updateVariables() {
     barWidth = RANGE_BAR.offsetWidth;
-    stepWidth = barWidth / (STEP * (availableValues.length - 1));
+    stepWidth = barWidth / (availableValues.length - 1);
   }
 
   function getTogglePosFromCursorPos(cursorPosition) {
@@ -133,17 +124,23 @@
     var cursorPosition = evt.clientX;
     var newTogglePositionOnBar = getTogglePosFromCursorPos(cursorPosition);
     newTogglePositionOnBar = checkBarLimits(newTogglePositionOnBar);
-    var result = newTogglePositionOnBar / stepWidth + MIN;
-    EXCEPTIONS.forEach(function (x) {
-      if (result + STEP > x) result += STEP;
-    });
+    var result = Math.round(newTogglePositionOnBar / barWidth * 100) * (MAX - MIN) / 100 + MIN;
 
-    for (var i = 0; i < availableValues.length; i++) {
-      if (availableValues[i] - result >= 0 && availableValues[i] - result <= STEP / 2) result = availableValues[i];
-      if (result - availableValues[i] >= 0 && result - availableValues[i] <= STEP / 2) result = availableValues[i];
+    for (var i = 0; i < EXCEPTIONS.length; i++) {
+      if (EXCEPTIONS[i] - result >= 0 && EXCEPTIONS[i] - result <= STEP / 2) {
+        result = EXCEPTIONS[i] - STEP;
+      } else if (result - EXCEPTIONS[i] >= 0 && result - EXCEPTIONS[i] <= STEP / 2) {
+        result = EXCEPTIONS[i] + STEP;
+      }
     }
 
-    newTogglePositionOnBar = (result - MIN) * stepWidth;
+    for (var _i = 0; _i < availableValues.length; _i++) {
+      if (availableValues[_i] - result >= 0 && availableValues[_i] - result <= STEP / 2 || result - availableValues[_i] >= 0 && result - availableValues[_i] <= STEP / 2) {
+        result = availableValues[_i];
+      }
+    }
+
+    newTogglePositionOnBar = availableValues.indexOf(result) * stepWidth;
     newTogglePositionOnBar = checkBarLimits(newTogglePositionOnBar);
     var persents = Math.round(newTogglePositionOnBar / barWidth * 100);
 
@@ -155,7 +152,7 @@
   }
 
   function forceMoveToggleToValue(value) {
-    var togglePositionOnBar = (value - MIN) * stepWidth;
+    var togglePositionOnBar = availableValues.indexOf(value) * stepWidth;
     var persents = Math.round(togglePositionOnBar / barWidth * 100);
     moveToggle(togglePositionOnBar);
     writeValue(value);
@@ -179,7 +176,7 @@
     calcToggleMove(evt);
   }
 
-  function onBarClick(evt) {
+  function onRangeBarClick(evt) {
     calcToggleMove(evt);
   }
 
@@ -195,8 +192,7 @@
   var TIME_UNIT = 'cек';
   var OK_STATUS = 200;
   var Url = {
-    // GET: 'https://api.jsonbin.io/b/5df3c10a2c714135cda0bf0f/1'
-    GET: 'https://api.jsonbin.io/b/5e08fa8df9369177b27484fa'
+    GET: 'https://api.jsonbin.io/b/5df3c10a2c714135cda0bf0f/1'
   };
 
   function load(onLoad, onError, method, data) {
@@ -215,7 +211,6 @@
       onError("\u041E\u0448\u0438\u0431\u043A\u0430 \u0441\u043E\u0435\u0434\u0438\u043D\u0435\u043D\u0438\u044F, \u0437\u0430\u043F\u0440\u043E\u0441 \u043D\u0435 \u0443\u0441\u043F\u0435\u043B \u0432\u044B\u043F\u043E\u043B\u043D\u0438\u0442\u044C\u0441\u044F \u0437\u0430 ".concat(xhr.timeout / MS_PER_SECOND, " ").concat(TIME_UNIT));
     });
     xhr.open(method, Url[method], true);
-    xhr.setRequestHeader('secret-key', '$2b$10$PJB9U7iJ7ytHYcfpTTNvJ./lH8zQor1GKkTgNRwy51cTnZi8lBZVS');
     xhr.timeout = MAX_RESPONSE_TIME;
     xhr.send(data);
   }
@@ -302,14 +297,15 @@
     orderBtn.textContent = 'Заказать'; // данные
 
     head.textContent = cardData.name;
-    var coresCount = '';
-    if (cardData.cpu.cores >= 2) coresCount = "".concat(cardData.cpu.count, " x ");
+    var count = '';
+    if (cardData.cpu.cores >= 2) count = "".concat(cardData.cpu.count, " x ");
     var cpuName = cardData.cpu.name;
     var lastSpacePos = cpuName.lastIndexOf(' ');
     var temp = cpuName.split('');
     temp.splice(lastSpacePos, 1, '<br>');
     cpuName = temp.join('');
-    attrCpu.innerHTML = "".concat(coresCount).concat(cpuName, ", ").concat(cardData.cpu.cores, " \u044F\u0434\u0435\u0440");
+    var cores = cardData.cpu.cores * cardData.cpu.count;
+    attrCpu.innerHTML = "".concat(count).concat(cpuName, ", ").concat(cores, " \u044F\u0434\u0435\u0440");
     attrRam.textContent = cardData.ram;
     var disksCount = '';
     if (cardData.disk.count >= 2) disksCount = "".concat(cardData.disk.count, " x ");
@@ -363,28 +359,47 @@
   var RANGE_BAR = document.querySelector("#".concat(dependencies.data.RANGE_BAR_ID));
   var RANGE_TOGGLE = RANGE_BAR.querySelector("#".concat(dependencies.data.RANGE_TOGGLE_ID));
   var FilterFunction = {
-    'bar-js': checkCoresCount,
-    'toggle-js': checkCoresCount,
+    'range': checkCoresCount,
     'gpu-js': checkGPU,
     'raid-js': checkRAID,
     'ssd-js': checkSSD
   };
   var FiltersState = {};
   var dataToBeFiltered = [];
-  FILTERS_CONTAINER.addEventListener('change', onFiltersChange);
-  RANGE_TOGGLE.addEventListener('mousedown', onFiltersChange);
-  RANGE_BAR.addEventListener('click', onFiltersChange);
+  FILTERS_CONTAINER.addEventListener('change', onCheckboxFilterChange);
+  RANGE_TOGGLE.addEventListener('mousedown', onRangeToggleMouseDown);
+  RANGE_BAR.addEventListener('click', onRangeBarClick);
 
-  function filterData(callback, filterValue) {
-    var filteredData = dataToBeFiltered;
+  function onRangeBarClick() {
+    onRangeFilterChange();
+  }
 
-    if (filterValue !== dependencies.data.FILTER_ANY_VALUE) {
-      filteredData = dataToBeFiltered.filter(function (it) {
-        return callback(it, filterValue);
-      });
+  function onRangeToggleMouseDown() {
+    document.addEventListener('mouseup', onRangeFilterChange);
+  }
+
+  function filterData() {
+    dataToBeFiltered = dependencies.data.SERVER_DATA;
+
+    for (var filterKey in FiltersState) {
+      if (Object.prototype.hasOwnProperty.call(FiltersState, filterKey)) {
+        (function () {
+          var callback = FilterFunction[filterKey];
+          var filterValue = FiltersState[filterKey];
+          var filteredData = dataToBeFiltered;
+
+          if (filterValue !== dependencies.data.FILTER_ANY_VALUE) {
+            filteredData = dataToBeFiltered.filter(function (it) {
+              return callback(it, filterValue);
+            });
+          }
+
+          dataToBeFiltered = filteredData;
+        })();
+      }
     }
 
-    dataToBeFiltered = filteredData;
+    dependencies.utils.debounce(renderFilteredCards)();
   }
 
   function checkCoresCount(it, value) {
@@ -418,37 +433,23 @@
     }
   }
 
-  function onFiltersChange(evt) {
-    dataToBeFiltered = dependencies.data.SERVER_DATA;
+  function onRangeFilterChange() {
+    FiltersState['range'] = dependencies.rangeControl.getValue();
+    filterData();
+    document.removeEventListener('mouseup', onRangeFilterChange);
+  }
+
+  function onCheckboxFilterChange(evt) {
     var filter = evt.target;
     var key = filter.id;
-
-    if (key === 'bar-js' || key === 'toggle-js') {
-      FiltersState[key] = dependencies.rangeControl.getValue();
-    } else {
-      FiltersState[key] = filter.value;
-    }
-
+    FiltersState[key] = filter.value;
     if (filter.checked === false) FiltersState[key] = dependencies.data.FILTER_ANY_VALUE;
-
-    for (var filterKey in FiltersState) {
-      if (Object.prototype.hasOwnProperty.call(FiltersState, filterKey)) {
-        var callback = FilterFunction[filterKey];
-        var filterValue = FiltersState[filterKey];
-        filterData(callback, filterValue);
-      }
-    }
-
-    dependencies.utils.debounce(renderFilteredCards)();
+    filterData();
   }
 
   function filterByDefault() {
-    dataToBeFiltered = dependencies.data.SERVER_DATA;
-    FiltersState['bar-js'] = dependencies.data.START_VCPU_COUNT;
-    var callback = FilterFunction['bar-js'];
-    var filterValue = FiltersState['bar-js'];
-    filterData(callback, filterValue);
-    renderFilteredCards();
+    FiltersState['range'] = dependencies.data.DEFAULT_FILTER_VCPU_COUNT;
+    filterData();
   }
 
   window.filters = {

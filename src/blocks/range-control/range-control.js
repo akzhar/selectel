@@ -26,26 +26,20 @@
   updateVariables();
 
   RANGE_TOGGLE.addEventListener('mousedown', onToggleMouseDown);
-  RANGE_BAR.addEventListener('click', onBarClick);
+  RANGE_BAR.addEventListener('click', onRangeBarClick);
   window.addEventListener('resize', onWindowResize);
 
-  forceMoveToggleToValue(dependencies.data.START_VCPU_COUNT);
+  forceMoveToggleToValue(dependencies.data.DEFAULT_FILTER_VCPU_COUNT);
 
   function defineAvailableValues() {
-    let varCount = Math.ceil((MAX - MIN) / STEP + EXCEPTIONS.length);
-    for(let i = 1; i <= varCount; i++) {
-      let val = i * STEP;
-      if (val < MIN) {
-        varCount++;
-        continue;
-      }
+    for(let val = MIN; val <= MAX; val += STEP) {
       if (!EXCEPTIONS.includes(val)) availableValues.push(val);
     }
   }
 
   function updateVariables() {
     barWidth = RANGE_BAR.offsetWidth;
-    stepWidth = barWidth / (STEP * (availableValues.length - 1));
+    stepWidth = barWidth / (availableValues.length - 1);
   }
 
   function getTogglePosFromCursorPos(cursorPosition) {
@@ -91,15 +85,21 @@
     let cursorPosition = evt.clientX;
     let newTogglePositionOnBar = getTogglePosFromCursorPos(cursorPosition);
     newTogglePositionOnBar = checkBarLimits(newTogglePositionOnBar);
-    let result = newTogglePositionOnBar / stepWidth + MIN;
-    EXCEPTIONS.forEach(function(x) {
-      if (result + STEP > x) result += STEP;
-    });
-    for(let i = 0; i < availableValues.length; i++) {
-      if ((availableValues[i] - result >= 0) && (availableValues[i] - result <= STEP / 2)) result = availableValues[i];
-      if ((result - availableValues[i] >= 0) && (result - availableValues[i] <= STEP / 2)) result = availableValues[i];
+    let result = Math.round(newTogglePositionOnBar / barWidth * 100) * (MAX - MIN) / 100 + MIN;
+    for(let i = 0; i < EXCEPTIONS.length; i++) {
+      if (EXCEPTIONS[i] - result >= 0 && EXCEPTIONS[i] - result <= STEP / 2) {
+        result = EXCEPTIONS[i] - STEP;
+      } else if (result - EXCEPTIONS[i] >= 0 && result - EXCEPTIONS[i] <= STEP / 2) {
+        result = EXCEPTIONS[i] + STEP;
+      }
     }
-    newTogglePositionOnBar = (result - MIN) * stepWidth;
+    for(let i = 0; i < availableValues.length; i++) {
+      if ((availableValues[i] - result >= 0 && availableValues[i] - result <= STEP / 2) ||
+         (result - availableValues[i] >= 0 && result - availableValues[i] <= STEP / 2)) {
+        result = availableValues[i];
+      }
+    }
+    newTogglePositionOnBar = availableValues.indexOf(result) * stepWidth;
     newTogglePositionOnBar = checkBarLimits(newTogglePositionOnBar);
     let persents = Math.round(newTogglePositionOnBar / barWidth * 100);
     if (availableValues.includes(result)) {
@@ -110,7 +110,7 @@
   }
 
   function forceMoveToggleToValue(value) {
-    let togglePositionOnBar = (value - MIN) * stepWidth;
+    let togglePositionOnBar = availableValues.indexOf(value) * stepWidth;
     let persents = Math.round(togglePositionOnBar / barWidth * 100);
     moveToggle(togglePositionOnBar)
     writeValue(value);
@@ -134,7 +134,7 @@
     calcToggleMove(evt);
   }
 
-  function onBarClick(evt) {
+  function onRangeBarClick(evt) {
     calcToggleMove(evt);
   }
 

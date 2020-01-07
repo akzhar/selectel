@@ -14,7 +14,7 @@
     temp()
     width 16px
     height 16px
-    margin 0 10px 13px 0
+    margin 0 6px 12px 0
 
     @media(min-width: width__tablet)
       margin 0 16px 0 0
@@ -22,12 +22,16 @@
     @media(min-width: width__desktop)
       width 22px
       height 22px
+      margin 0 23px 0 0
 
     &:nth-child(even)
       margin-right 0
 
       @media(min-width: width__tablet)
         margin-right 16px
+
+      @media(min-width: width__desktop)
+        margin-right 23px
 
     &:last-child
 
@@ -51,9 +55,6 @@
 
     &:hover
       opacity opactiy
-
-    &:active
-      color color__darkgrey
 
     &:active svg
       fill color__darkgrey

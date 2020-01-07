@@ -3,7 +3,7 @@
 (function () {
   window.data = {
     SERVER_DATA: [],
-    START_VCPU_COUNT: 6,
+    DEFAULT_FILTER_VCPU_COUNT: 6,
     FILTER_ANY_VALUE: 'any',
     CATALOG_CLASS: 'catalog__content',
     FILTERS_CLASS: 'filters',

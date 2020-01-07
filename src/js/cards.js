@@ -52,14 +52,15 @@
     orderBtn.textContent = 'Заказать';
     // данные
     head.textContent = cardData.name;
-    let coresCount = '';
-    if (cardData.cpu.cores >= 2) coresCount = `${cardData.cpu.count} x `;
+    let count = '';
+    if (cardData.cpu.cores >= 2) count = `${cardData.cpu.count} x `;
     let cpuName = cardData.cpu.name;
     let lastSpacePos = cpuName.lastIndexOf(' ');
     let temp = cpuName.split('');
     temp.splice(lastSpacePos, 1, '<br>');
     cpuName = temp.join('');
-    attrCpu.innerHTML = `${coresCount}${cpuName}, ${cardData.cpu.cores} ядер`;
+    let cores = cardData.cpu.cores * cardData.cpu.count;
+    attrCpu.innerHTML = `${count}${cpuName}, ${cores} ядер`;
     attrRam.textContent = cardData.ram;
     let disksCount = '';
     if (cardData.disk.count >= 2) disksCount = `${cardData.disk.count} x `;
