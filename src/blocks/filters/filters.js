@@ -14,8 +14,7 @@
   const RANGE_BAR = document.querySelector(`#${dependencies.data.RANGE_BAR_ID}`);
   const RANGE_TOGGLE = RANGE_BAR.querySelector(`#${dependencies.data.RANGE_TOGGLE_ID}`);
   const FilterFunction = {
-    'bar-js': checkCoresCount,
-    'toggle-js': checkCoresCount,
+    'range': checkCoresCount,
     'gpu-js': checkGPU,
     'raid-js': checkRAID,
     'ssd-js': checkSSD
@@ -23,18 +22,34 @@
   let FiltersState = {};
   let dataToBeFiltered = [];
 
-  FILTERS_CONTAINER.addEventListener('change', onFiltersChange);
-  RANGE_TOGGLE.addEventListener('mousedown', onFiltersChange);
-  RANGE_BAR.addEventListener('click', onFiltersChange);
+  FILTERS_CONTAINER.addEventListener('change', onCheckboxFilterChange);
+  RANGE_TOGGLE.addEventListener('mousedown', onRangeToggleMouseDown);
+  RANGE_BAR.addEventListener('click', onRangeBarClick);
 
-  function filterData(callback, filterValue) {
-    let filteredData = dataToBeFiltered;
-    if (filterValue !== dependencies.data.FILTER_ANY_VALUE) {
-      filteredData = dataToBeFiltered.filter(function (it) {
-        return callback(it, filterValue);
-      });
+  function onRangeBarClick() {
+    onRangeFilterChange();
+  }
+
+  function onRangeToggleMouseDown() {
+    document.addEventListener('mouseup', onRangeFilterChange);
+  }
+
+  function filterData() {
+    dataToBeFiltered = dependencies.data.SERVER_DATA;
+    for (let filterKey in FiltersState) {
+      if (Object.prototype.hasOwnProperty.call(FiltersState, filterKey)) {
+        let callback = FilterFunction[filterKey];
+        let filterValue = FiltersState[filterKey];
+        let filteredData = dataToBeFiltered;
+        if (filterValue !== dependencies.data.FILTER_ANY_VALUE) {
+          filteredData = dataToBeFiltered.filter(function (it) {
+            return callback(it, filterValue);
+          });
+        }
+        dataToBeFiltered = filteredData;
+      }
     }
-    dataToBeFiltered = filteredData;
+    dependencies.utils.debounce(renderFilteredCards)();
   }
 
   function checkCoresCount(it, value) {
@@ -67,33 +82,23 @@
     }
   }
 
-  function onFiltersChange(evt) {
-    dataToBeFiltered = dependencies.data.SERVER_DATA;
+  function onRangeFilterChange() {
+    FiltersState['range'] = dependencies.rangeControl.getValue();
+    filterData();
+    document.removeEventListener('mouseup', onRangeFilterChange);
+  }
+
+  function onCheckboxFilterChange(evt) {
     let filter = evt.target;
     let key = filter.id;
-    if (key === 'bar-js' || key === 'toggle-js') {
-      FiltersState[key] = dependencies.rangeControl.getValue();
-    } else {
-      FiltersState[key] = filter.value;
-    }
+    FiltersState[key] = filter.value;
     if (filter.checked === false) FiltersState[key] = dependencies.data.FILTER_ANY_VALUE;
-    for (let filterKey in FiltersState) {
-      if (Object.prototype.hasOwnProperty.call(FiltersState, filterKey)) {
-        let callback = FilterFunction[filterKey];
-        let filterValue = FiltersState[filterKey];
-        filterData(callback, filterValue);
-      }
-    }
-    dependencies.utils.debounce(renderFilteredCards)();
+    filterData();
   }
 
   function filterByDefault() {
-    dataToBeFiltered = dependencies.data.SERVER_DATA;
-    FiltersState['bar-js'] = dependencies.data.START_VCPU_COUNT;
-    let callback = FilterFunction['bar-js'];
-    let filterValue = FiltersState['bar-js'];
-    filterData(callback, filterValue);
-    renderFilteredCards();
+    FiltersState['range'] = dependencies.data.DEFAULT_FILTER_VCPU_COUNT;
+    filterData();
   }
 
   window.filters = {

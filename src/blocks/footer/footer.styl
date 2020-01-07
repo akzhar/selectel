@@ -10,7 +10,7 @@
       padding 32px padding__content--tablet 72px padding__content--tablet
 
     @media(min-width: width__desktop)
-      padding 32px padding__content--desktop 62px padding__content--desktop
+      padding 40px 154px 62px 154px
 
   &__wrapper
     temp()
@@ -21,7 +21,17 @@
 
     @media(min-width: width__tablet)
       align-items flex-start
+      margin 0 34px 0 0
+
+    @media(min-width: width__desktop)
+      margin 0 48px 0 0
 
     & .logo
       temp()
       margin 0 0 20px 0
+
+      @media(min-width: width__tablet)
+        margin 0 0 22px 0
+
+      @media(min-width: width__desktop)
+        margin 0 0 25px 0
