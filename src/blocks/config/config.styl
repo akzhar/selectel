@@ -2,12 +2,16 @@
 
   &__content
     temp()
+    width "calc(%s - 20px - 20px)" % width__mobile
+    margin 0 auto
     padding 30px 20px 0 20px
 
     @media(min-width: width__tablet)
+      width "calc(%s - 2 * %s)" % (width__tablet padding__content--tablet)
       padding 52px padding__content--tablet 0 padding__content--tablet
 
     @media(min-width: width__desktop)
+      width "calc(%s - 2 * %s)" % (width__desktop padding__content--desktop)
       padding 8px padding__content--desktop 0 padding__content--desktop
 
   &__head

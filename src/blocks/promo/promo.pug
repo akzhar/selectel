@@ -1,3 +1,4 @@
+- var width__mobile = 320
 - var width__tablet = 768
 - var width__desktop = 1200
 
@@ -8,16 +9,25 @@ section(class="promo")
       p(class="promo__text") Выделенный сервер — это аренда сервера<br> под задачи вашего проекта с возможностью<br> свободно распоряжаться ресурсами машины<br> и установки любого программного обеспечения.
       a(class="promo__btn btn btn--colored", href="https://selectel.ru/", target="blank") Готовые серверы
     picture(class="promo__picture")
-      source(media="(min-width:" + width__desktop + "px)",
-      srcset="img/server__desktop.webp",
-      type="image/webp")
-      source(media="(min-width:" + width__desktop + "px)",
-      srcset="img/server__desktop.png")
-      source(media="(min-width:" + width__tablet + "px)",
-      srcset="img/server__tablet.webp",
-      type="image/webp")
-      source(media="(min-width:" + width__tablet + "px)",
-      srcset="img/server__tablet.png")
-      source(srcset="img/server__mobile.webp",
-      type="image/webp")
-      img(src="img/server__mobile.png", alt="server")
+      source(
+      type="image/webp",
+      media="(min-width:" + width__desktop + "px)",
+      srcset="img/server__desktop_1x.webp 1x, img/server__desktop_2x.webp 2x, img/server__desktop_4x.webp 4x")
+      source(
+      media="(min-width:" + width__desktop + "px)",
+      srcset="img/server__desktop_1x.png 1x, img/server__desktop_2x.png 2x, img/server__desktop_4x.png 4x")
+      source(
+      type="image/webp",
+      media="(min-width:" + width__tablet + "px)",
+      srcset="img/server__tablet_1x.webp 1x, img/server__tablet_2x.webp 2x, img/server__tablet_4x.webp 4x")
+      source(
+      media="(min-width:" + width__tablet + "px)",
+      srcset="img/server__tablet_1x.png 1x, img/server__tablet_2x.png 2x, img/server__tablet_4x.png 4x")
+      source(
+      type="image/webp",
+      srcset="img/server__mobile_1x.webp 1x, img/server__mobile_2x.webp 2x, img/server__mobile_4x.webp 4x")
+      img(
+      src="img/server__mobile_1x.png",
+      srcset="img/server__mobile_2x.png 2x, img/server__mobile_4x.png 4x",
+      alt="server"
+      )
