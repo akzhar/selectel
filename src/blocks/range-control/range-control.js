@@ -3,6 +3,7 @@
 (function () {
 
   const dependencies = {
+    utils: window.utils,
     data: window.data
   };
 
@@ -11,7 +12,7 @@
   const MAX = 12;
   const EXCEPTIONS = [10];
 
-  const UNIT = 'ядер';
+  const UNIT_TITLES = ['ядро', 'ядра', 'ядер'];
   const RANGE_BAR = document.querySelector(`#${dependencies.data.RANGE_BAR_ID}`);
   const RANGE_TOGGLE = RANGE_BAR.querySelector(`#${dependencies.data.RANGE_TOGGLE_ID}`);
   const RANGE_OUTPUT = document.querySelector(`#${dependencies.data.RANGE_OUTPUT_ID}`);
@@ -59,7 +60,7 @@
   }
 
   function writeValue(result) {
-    RANGE_OUTPUT.value = `${result} ${UNIT}`;
+    RANGE_OUTPUT.value = `${result} ${dependencies.utils.getDeclinatedTitleByNumber(result, UNIT_TITLES)}`;
   }
 
   function getValue() {

@@ -18,8 +18,14 @@
     };
   }
 
+  function getDeclinatedTitleByNumber(number, titles) {
+    var cases = [2, 0, 1, 1, 1, 2];
+    return titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[number % 10 < 5 ? number % 10 : 5]];
+  }
+
   window.utils = {
-    debounce: debounce
+    debounce: debounce,
+    getDeclinatedTitleByNumber: getDeclinatedTitleByNumber
   };
 })();
 'use strict';
@@ -46,6 +52,7 @@
 
 (function () {
   var dependencies = {
+    utils: window.utils,
     data: window.data
   };
   var STEP = 2; // must be >= 1
@@ -53,7 +60,7 @@
   var MIN = 2;
   var MAX = 12;
   var EXCEPTIONS = [10];
-  var UNIT = 'ядер';
+  var UNIT_TITLES = ['ядро', 'ядра', 'ядер'];
   var RANGE_BAR = document.querySelector("#".concat(dependencies.data.RANGE_BAR_ID));
   var RANGE_TOGGLE = RANGE_BAR.querySelector("#".concat(dependencies.data.RANGE_TOGGLE_ID));
   var RANGE_OUTPUT = document.querySelector("#".concat(dependencies.data.RANGE_OUTPUT_ID));
@@ -98,7 +105,7 @@
   }
 
   function writeValue(result) {
-    RANGE_OUTPUT.value = "".concat(result, " ").concat(UNIT);
+    RANGE_OUTPUT.value = "".concat(result, " ").concat(dependencies.utils.getDeclinatedTitleByNumber(result, UNIT_TITLES));
   }
 
   function getValue() {

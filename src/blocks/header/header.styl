@@ -5,9 +5,13 @@
     display flex
     justify-content space-between
     padding 10px 22px 10px 18px
+    width "calc(%s - 22px - 18px)" % width__mobile
+    margin 0 auto
 
     @media(min-width: width__tablet)
+      width "calc(%s - 2 * %s)" % (width__tablet padding__content--tablet)
       padding 16px padding__content--tablet
 
     @media(min-width: width__desktop)
+      width "calc(%s - 2 * %s)" % (width__desktop padding__content--desktop)
       padding 16px padding__content--desktop
